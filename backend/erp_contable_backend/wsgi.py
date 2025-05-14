@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_contable_backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'erp_contable_backend.settings')
 
 application = get_wsgi_application()

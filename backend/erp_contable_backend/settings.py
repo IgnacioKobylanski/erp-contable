@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sistema_contable_backend.urls'
+ROOT_URLCONF = 'erp_contable_backend.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sistema_contable_backend.wsgi.application'
+WSGI_APPLICATION = 'erp_contable_backend.wsgi.application'
 
 
 # Database
