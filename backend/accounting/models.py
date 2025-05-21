@@ -39,8 +39,18 @@ class Transaction(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        self.clean()  # Validamos antes de guardar
-        super().save(*args, **kwargs)
+        if not self.pk:
+            super().save(*args, **kwargs)
+        self.clean()
+        if self.pk:
+            super().save(*args, **kwargs)
+
+
+
+
+    """ def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs) """
 
     def __str__(self):
         return f'Transaction {self.id} - {self.description}'
