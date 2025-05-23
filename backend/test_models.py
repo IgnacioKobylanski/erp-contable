@@ -1,7 +1,6 @@
 import os
 import django
 
-# Configurar el entorno Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'erp_contable_backend.settings')
 django.setup()
 

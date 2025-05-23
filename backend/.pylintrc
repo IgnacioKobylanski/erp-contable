@@ -1,0 +1,163 @@
+[MAIN]
+# Analizar bloques fallback de import para código compatible con Python 2 y 3.
+analyse-fallback-blocks=no
+
+# Limpiar cachés en memoria después de la ejecución (útil en modo servidor).
+clear-cache-post-run=no
+
+# Número de procesos para paralelizar pylint. 0 detecta automáticamente.
+jobs=1
+
+# Cargar plugins adicionales (separados por coma).
+load-plugins=
+
+# Persistir datos recogidos para comparaciones posteriores.
+persistent=yes
+
+# Versión mínima de Python para validaciones específicas.
+py-version=3.13
+
+# Buscar módulos y paquetes de forma no recursiva (solo carpeta actual).
+recursive=no
+
+# Modo sugerencias para detectar configuraciones incorrectas comunes.
+suggestion-mode=yes
+
+# Permitir carga arbitraria de extensiones C (puede ser inseguro).
+unsafe-load-any-extension=no
+
+[BASIC]
+# Estilos de nomenclatura:
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+class-attribute-naming-style=any
+class-const-naming-style=UPPER_CASE
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+function-naming-style=snake_case
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+inlinevar-naming-style=any
+
+# Nombres malos prohibidos.
+bad-names=foo,bar,baz,toto,tutu,tata
+
+# Nombres buenos aceptados siempre.
+good-names=i,j,k,ex,Run,_
+
+# No incluir pistas para formatos de nombres inválidos.
+include-naming-hint=no
+
+[CLASSES]
+# Métodos que definen atributos de instancia.
+defining-attr-methods=__init__,__new__,setUp,asyncSetUp,__post_init__
+
+# Nombres excluidos de advertencias sobre acceso protegido.
+exclude-protected=_asdict,_fields,_replace,_source,_make,os._exit
+
+# Primer argumento válido en métodos de clase y metaclase.
+valid-classmethod-first-arg=cls
+valid-metaclass-classmethod-first-arg=mcs
+
+[DESIGN]
+max-args=5
+max-attributes=7
+max-bool-expr=5
+max-branches=12
+max-locals=15
+max-parents=7
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=2
+
+[EXCEPTIONS]
+# Advertir al capturar estas excepciones (overgeneral).
+overgeneral-exceptions=builtins.BaseException,builtins.Exception
+
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+indent-after-paren=4
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+max-module-lines=1000
+single-line-class-stmt=no
+single-line-if-stmt=no
+
+[IMPORTS]
+# Lista de librerías conocidas de terceros (modifícala según tu entorno).
+known-third-party=enchant
+
+[LOGGING]
+logging-format-style=old
+logging-modules=logging
+
+[MESSAGES CONTROL]
+# Mostrar mensajes con estas confidencias.
+confidence=HIGH,CONTROL_FLOW,INFERENCE,INFERENCE_FAILURE,UNDEFINED
+
+# Deshabilitar estos mensajes.
+disable=raw-checker-failed,
+        bad-inline-option,
+        locally-disabled,
+        file-ignored,
+        suppressed-message,
+        useless-suppression,
+        deprecated-pragma,
+        use-symbolic-message-instead,
+        use-implicit-booleaness-not-comparison-to-string,
+        use-implicit-booleaness-not-comparison-to-zero
+
+[METHOD_ARGS]
+# Métodos que requieren parámetro timeout.
+timeout-methods=requests.api.delete,requests.api.get,requests.api.head,requests.api.options,requests.api.patch,requests.api.post,requests.api.put,requests.api.request
+
+[MISCELLANEOUS]
+notes=FIXME,XXX,TODO
+
+[REFACTORING]
+max-nested-blocks=5
+never-returning-functions=sys.exit,argparse.parse_error
+suggest-join-with-non-empty-separator=yes
+
+[REPORTS]
+reports=no
+score=yes
+evaluation=max(0, 0 if fatal else 10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10))
+
+[SIMILARITIES]
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=yes
+ignore-signatures=yes
+min-similarity-lines=4
+
+[SPELLING]
+max-spelling-suggestions=4
+spelling-ignore-comment-directives=fmt: on,fmt: off,noqa:,noqa,nosec,isort:skip,mypy:
+spelling-store-unknown-words=no
+
+[STRING]
+check-quote-consistency=no
+check-str-concat-over-line-jumps=no
+
+[TYPECHECK]
+contextmanager-decorators=contextlib.contextmanager
+ignore-none=yes
+ignore-on-opaque-inference=yes
+ignored-checks-for-mixins=no-member,not-async-context-manager,not-context-manager,attribute-defined-outside-init
+ignored-classes=optparse.Values,thread._local,_thread._local,argparse.Namespace
+missing-member-hint=yes
+missing-member-hint-distance=1
+missing-member-max-choices=1
+mixin-class-rgx=.*[Mm]ixin
+
+[VARIABLES]
+allow-global-unused-variables=yes
+callbacks=cb_,_cb
+dummy-variables-rgx=_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
+ignored-argument-names=_.*|^ignored_|^unused_
+init-import=no
+redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
