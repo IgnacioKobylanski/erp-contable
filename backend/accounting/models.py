@@ -45,9 +45,6 @@ class Transaction(models.Model):
         if self.pk:
             super().save(*args, **kwargs)
 
-
-
-
     """ def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs) """
