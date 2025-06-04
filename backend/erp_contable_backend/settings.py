@@ -25,6 +25,9 @@ SECRET_KEY = 'django-insecure-vq+1lps1o36krycd3c2!_40e*(7v2l4y(4&jfh)wl_lb1%9cdn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#DEBUG = False
+#ALLOWED_HOSTS = ['tu-dominio.com', 'www.tu-dominio.com', 'IP-del-servidor'] ejemplo de como debe quedar
+
 ALLOWED_HOSTS = []
 
 
@@ -124,5 +127,14 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

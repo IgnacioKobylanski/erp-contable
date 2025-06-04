@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables, virtual env
+.env
+venv/
+env/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+db.sqlite3
+
+# Your script file (poné el nombre de tu script)
+test_api.sh
+
+# VSCode settings folder (si usás VSCode en backend)
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
