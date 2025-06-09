@@ -1,22 +1,37 @@
-
+# Python cache y compilados
 __pycache__/
 *.py[cod]
 *$py.class
 
-
+# Entornos virtuales
 .env
 venv/
 env/
 
+# Logs
 *.log
+
+# Archivos de traducción
 *.pot
+
+# Archivos compilados Python
 *.pyc
+
+# Base de datos por defecto de Django (sqlite)
 db.sqlite3
 
+# Scripts
 test_api.sh
 
+# Configuración editores y OS
 .vscode/
-
 .idea/
-
 .DS_Store
+
+# Archivos estáticos generados
+staticfiles/
+media/
+
+# Cobertura y reportes
+.coverage
+htmlcov/
