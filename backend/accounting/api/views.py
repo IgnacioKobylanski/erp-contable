@@ -15,7 +15,7 @@ from .serializers import (
 from drf_spectacular.utils import extend_schema
 
 class BalanceSheetView(APIView):
-    pagination_class = StandardResultsSetPagination  # Sin paréntesis
+    pagination_class = StandardResultsSetPagination
 
     @extend_schema(
         responses=BalanceSheetSerializer(many=True),
@@ -39,7 +39,7 @@ class BalanceSheetView(APIView):
 
 
 class JournalView(APIView):
-    pagination_class = StandardResultsSetPagination  # Sin paréntesis
+    pagination_class = StandardResultsSetPagination
 
     @extend_schema(
         responses=JournalSerializer(many=True),
@@ -62,7 +62,7 @@ class JournalView(APIView):
 
 
 class LedgerView(APIView):
-    pagination_class = StandardResultsSetPagination  # Sin paréntesis
+    pagination_class = StandardResultsSetPagination
 
     @extend_schema(
         responses=LedgerSerializer(many=True),
@@ -85,7 +85,7 @@ class LedgerView(APIView):
 
 
 class IncomeStatementView(APIView):
-    pagination_class = StandardResultsSetPagination  # Aunque no se usa paginación aquí, está bien dejarlo
+    pagination_class = StandardResultsSetPagination
 
     @extend_schema(
         responses=IncomeStatementSerializer,
