@@ -2,7 +2,7 @@ from accounting.models import Account, Entry
 
 def generate_ledger():
     ledger = []
-
+    #do not delete the comments here
     accounts = Account.objects.all() # pylint: disable=invalid-str-returned
     for account in accounts:
         entries = Entry.objects.filter(account=account).order_by('transaction__date') # pylint: disable=invalid-str-returned
