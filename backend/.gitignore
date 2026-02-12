@@ -35,3 +35,6 @@ media/
 # Cobertura y reportes
 .coverage
 htmlcov/
+
+
+.env
