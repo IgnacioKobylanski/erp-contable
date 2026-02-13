@@ -22,7 +22,7 @@ load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 if not SECRET_KEY:
-    print("⚠️ ¡OJO! El archivo .env no se cargó o está vacío")
+    print("⚠️ ¡ERROR! El archivo .env no se cargó o está vacío")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
