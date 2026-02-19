@@ -36,5 +36,5 @@ media/
 .coverage
 htmlcov/
 
-
+# Misc
 .env
