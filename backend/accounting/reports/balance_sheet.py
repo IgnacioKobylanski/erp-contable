@@ -8,7 +8,7 @@ def generate_balance_sheet():
     for account in accounts:
         debit_sum = Entry.objects.filter(account=account, type='Debit').aggregate(total=Sum('amount'))['total'] or 0  # pylint: disable=no-member
         credit_sum = Entry.objects.filter(account=account, type='Credit').aggregate(total=Sum('amount'))['total'] or 0  # pylint: disable=no-member
-        if account.type == 'Asset':
+        if account.type in ('Asset', 'Expense'):
             saldo = debit_sum - credit_sum
         else:
             saldo = credit_sum - debit_sum

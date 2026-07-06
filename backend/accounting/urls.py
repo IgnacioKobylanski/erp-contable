@@ -10,4 +10,5 @@ router.register(r'entries', EntryViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('balance-sheet/', balance_sheet_view, name='balance-sheet'),
+    path('', include('accounting.api.urls')),
 ]

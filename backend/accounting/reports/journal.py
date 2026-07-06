@@ -10,7 +10,7 @@ def generate_journal():
         for e in entries:
             entry_list.append({
                 'account': e.account.name,
-                'type': e.type,
+                'type': e.type.lower(),
                 'amount': e.amount,
             })
         journal.append({

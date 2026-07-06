@@ -12,7 +12,7 @@ def generate_ledger():
                 {
                     'date': entry.transaction.date,
                     'description': entry.transaction.description,
-                    'type': entry.type,
+                    'type': entry.type.lower(),
                     'amount': entry.amount
                 }
                 for entry in entries

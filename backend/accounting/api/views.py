@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,permissions
 from .pagination import StandardResultsSetPagination
 from accounting.reports.balance_sheet import generate_balance_sheet
 from accounting.reports.journal import generate_journal
@@ -16,6 +16,7 @@ from drf_spectacular.utils import extend_schema
 
 class BalanceSheetView(APIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [permissions.AllowAny] 
 
     @extend_schema(
         responses=BalanceSheetSerializer(many=True),
@@ -40,6 +41,7 @@ class BalanceSheetView(APIView):
 
 class JournalView(APIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [permissions.AllowAny] 
 
     @extend_schema(
         responses=JournalSerializer(many=True),
@@ -63,6 +65,7 @@ class JournalView(APIView):
 
 class LedgerView(APIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [permissions.AllowAny] 
 
     @extend_schema(
         responses=LedgerSerializer(many=True),
@@ -86,6 +89,7 @@ class LedgerView(APIView):
 
 class IncomeStatementView(APIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [permissions.AllowAny] 
 
     @extend_schema(
         responses=IncomeStatementSerializer,
