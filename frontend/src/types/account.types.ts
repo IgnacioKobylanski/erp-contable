@@ -5,6 +5,14 @@ export interface Account {
     code: string;
     name: string;
     type: AccountType;
-    description?: string; 
-    parent?: number | null; 
+    description: string;
+    parent: number | null;
+}
+
+export interface AccountPayload {
+    code: string;
+    name: string;
+    type: AccountType;
+    description?: string;
+    parent?: number | null;
 }

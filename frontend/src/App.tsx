@@ -1,14 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/layout/Layout';
+import { AccountsPage } from './pages/accounts/AccountsPage';
+import { TransactionsPage } from './pages/transactions/TransactionsPage';
+import { NewTransactionPage } from './pages/transactions/NewTransactionPage';
+import { JournalPage } from './pages/reports/JournalPage';
+import { LedgerPage } from './pages/reports/LedgerPage';
+import { BalanceSheetPage } from './pages/reports/BalanceSheetPage.tsx';
+import { IncomeStatementPage } from './pages/reports/IncomeStatementPage';
 
 function App() {
-
   return (
-    <>    
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/accounts" element={<AccountsPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/transactions/new" element={<NewTransactionPage />} />
+          <Route path="/reports/journal" element={<JournalPage />} />
+          <Route path="/reports/ledger" element={<LedgerPage />} />
+          <Route path="/reports/balance-sheet" element={<BalanceSheetPage />} />
+          <Route path="/reports/income-statement" element={<IncomeStatementPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

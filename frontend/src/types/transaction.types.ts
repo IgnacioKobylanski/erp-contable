@@ -1,8 +1,13 @@
-import type { Entry } from "./entry.types";
+import type { Entry, EntryPayload } from "./entry.types";
 
 export interface Transaction {
     id: number;
-    date: string; 
+    date: string;
     description: string;
-    entries?: Entry[]; 
+    entries: Entry[];
+}
+
+export interface TransactionPayload {
+    description: string;
+    entries: EntryPayload[];
 }
