@@ -1,0 +1,32 @@
+.typeBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.typeAsset {
+  background-color: var(--color-asset-bg);
+  color: var(--color-asset);
+}
+
+.typeLiability {
+  background-color: var(--color-liability-bg);
+  color: var(--color-liability);
+}
+
+.typeEquity {
+  background-color: var(--color-equity-bg);
+  color: var(--color-equity);
+}
+
+.typeIncome {
+  background-color: var(--color-income-bg);
+  color: var(--color-income);
+}
+
+.typeExpense {
+  background-color: var(--color-expense-bg);
+  color: var(--color-expense);
+}

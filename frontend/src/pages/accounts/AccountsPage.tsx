@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getAccounts } from '../../services/account.service';
 import type { Account } from '../../types';
+import { accountTypeColorClass } from '../../utils/accountStyles';
+import styles from './AccountsPage.module.css';
 
 export function AccountsPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -19,11 +21,11 @@ export function AccountsPage() {
 
   return (
     <div>
-      <h1>Plan de Cuentas</h1>
+      <h1 className={styles.title}>Plan de Cuentas</h1>
       {accounts.length === 0 ? (
-        <p>No hay cuentas cargadas todavía.</p>
+        <p className={styles.emptyState}>No hay cuentas cargadas todavía.</p>
       ) : (
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Código</th>
@@ -36,7 +38,11 @@ export function AccountsPage() {
               <tr key={account.id}>
                 <td>{account.code}</td>
                 <td>{account.name}</td>
-                <td>{account.type}</td>
+                <td>
+                  <span className={`typeBadge ${accountTypeColorClass[account.type]}`}>
+                    {account.type}
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
