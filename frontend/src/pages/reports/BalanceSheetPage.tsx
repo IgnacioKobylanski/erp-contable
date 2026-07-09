@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getBalanceSheet } from '../../services/reports.service';
 import type { BalanceSheetItem } from '../../types';
+import styles from './BalanceSheetPage.module.css';
 
 export function BalanceSheetPage() {
   const [items, setItems] = useState<BalanceSheetItem[]>([]);
@@ -19,12 +20,12 @@ export function BalanceSheetPage() {
 
   return (
     <div>
-      <h1>Balance General</h1>
+      <h1 className={styles.title}>Balance General</h1>
 
       {items.length === 0 ? (
-        <p>No hay cuentas con movimientos todavía.</p>
+        <p className={styles.emptyState}>No hay cuentas con movimientos todavía.</p>
       ) : (
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Cuenta</th>

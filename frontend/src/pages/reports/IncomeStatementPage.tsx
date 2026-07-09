@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getIncomeStatement } from '../../services/reports.service';
 import type { IncomeStatement } from '../../types';
+import styles from './IncomeStatementPage.module.css';
 
 export function IncomeStatementPage() {
   const [statement, setStatement] = useState<IncomeStatement | null>(null);
@@ -18,10 +19,12 @@ export function IncomeStatementPage() {
   if (error) return <p>{error}</p>;
   if (!statement) return <p>No hay datos disponibles.</p>;
 
+  const isGain = parseFloat(statement.net_result) >= 0;
+
   return (
     <div>
-      <h1>Estado de Resultados</h1>
-      <table>
+      <h1 className={styles.title}>Estado de Resultados</h1>
+      <table className={styles.table}>
         <tbody>
           <tr>
             <td>Total Ingresos</td>
@@ -31,12 +34,10 @@ export function IncomeStatementPage() {
             <td>Total Egresos</td>
             <td>{statement.total_expense}</td>
           </tr>
-          <tr>
-            <td><strong>Resultado Neto</strong></td>
-            <td>
-              <strong>{statement.net_result}</strong>
-              {' '}
-              {parseFloat(statement.net_result) >= 0 ? '📈 Ganancia' : '📉 Pérdida'}
+          <tr className={styles.netResultRow}>
+            <td>Resultado Neto</td>
+            <td className={isGain ? styles.gain : styles.loss}>
+              {statement.net_result} {isGain ? '📈 Ganancia' : '📉 Pérdida'}
             </td>
           </tr>
         </tbody>

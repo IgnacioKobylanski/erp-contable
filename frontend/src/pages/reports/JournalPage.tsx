@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getJournal } from '../../services/reports.service';
 import type { JournalRecord } from '../../types';
+import styles from './JournalPage.module.css';
 
 export function JournalPage() {
   const [records, setRecords] = useState<JournalRecord[]>([]);
@@ -19,18 +20,20 @@ export function JournalPage() {
 
   return (
     <div>
-      <h1>Libro Diario</h1>
+      <h1 className={styles.title}>Libro Diario</h1>
 
       {records.length === 0 ? (
-        <p>No hay transacciones registradas todavía.</p>
+        <p className={styles.emptyState}>No hay transacciones registradas todavía.</p>
       ) : (
         records.map((record) => (
-          <div key={record.transaction_id}>
-            <h3>
-              #{record.transaction_id} — {record.description} —{' '}
-              {new Date(record.date).toLocaleDateString()}
-            </h3>
-            <table>
+          <div key={record.transaction_id} className={styles.record}>
+            <div className={styles.recordHeader}>
+              {record.description}{' '}
+              <span className={styles.recordId}>
+                #{record.transaction_id} — {new Date(record.date).toLocaleDateString()}
+              </span>
+            </div>
+            <table className={styles.table}>
               <thead>
                 <tr>
                   <th>Cuenta</th>
@@ -42,7 +45,9 @@ export function JournalPage() {
                 {record.entries.map((entry, index) => (
                   <tr key={index}>
                     <td>{entry.account}</td>
-                    <td>{entry.type === 'debit' ? 'Débito' : 'Crédito'}</td>
+                    <td className={entry.type === 'debit' ? styles.debit : styles.credit}>
+                      {entry.type === 'debit' ? 'Débito' : 'Crédito'}
+                    </td>
                     <td>{entry.amount}</td>
                   </tr>
                 ))}

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { AccountsPage } from './pages/accounts/AccountsPage';
 import { TransactionsPage } from './pages/transactions/TransactionsPage';
@@ -13,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
+          <Route index element={<Navigate to="/accounts" replace />} />
           <Route path="/accounts" element={<AccountsPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/transactions/new" element={<NewTransactionPage />} />

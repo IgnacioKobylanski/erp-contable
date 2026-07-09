@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getLedger } from '../../services/reports.service';
 import type { LedgerRecord } from '../../types';
+import styles from './LedgerPage.module.css';
 
 export function LedgerPage() {
   const [records, setRecords] = useState<LedgerRecord[]>([]);
@@ -19,18 +20,18 @@ export function LedgerPage() {
 
   return (
     <div>
-      <h1>Libro Mayor</h1>
+      <h1 className={styles.title}>Libro Mayor</h1>
 
       {records.length === 0 ? (
-        <p>No hay movimientos registrados todavía.</p>
+        <p className={styles.emptyState}>No hay movimientos registrados todavía.</p>
       ) : (
         records.map((record) => (
-          <div key={record.account}>
-            <h3>{record.account}</h3>
+          <div key={record.account} className={styles.record}>
+            <div className={styles.recordHeader}>{record.account}</div>
             {record.entries.length === 0 ? (
-              <p>Sin movimientos.</p>
+              <p className={styles.noEntries}>Sin movimientos.</p>
             ) : (
-              <table>
+              <table className={styles.table}>
                 <thead>
                   <tr>
                     <th>Fecha</th>
@@ -44,7 +45,9 @@ export function LedgerPage() {
                     <tr key={index}>
                       <td>{new Date(entry.date).toLocaleDateString()}</td>
                       <td>{entry.description}</td>
-                      <td>{entry.type === 'debit' ? 'Débito' : 'Crédito'}</td>
+                      <td className={entry.type === 'debit' ? styles.debit : styles.credit}>
+                        {entry.type === 'debit' ? 'Débito' : 'Crédito'}
+                      </td>
                       <td>{entry.amount}</td>
                     </tr>
                   ))}
