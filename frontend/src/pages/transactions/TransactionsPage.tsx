@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getTransactions } from '../../services/transaction.service';
-import type { Transaction } from '../../types';
-import styles from './TransactionsPage.module.css';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getTransactions } from "../../services/transaction.service";
+import type { Transaction } from "../../types";
+import styles from "./TransactionsPage.module.css";
 
 export function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -12,7 +12,7 @@ export function TransactionsPage() {
   useEffect(() => {
     getTransactions()
       .then(setTransactions)
-      .catch(() => setError('No se pudieron cargar las transacciones.'))
+      .catch(() => setError("No se pudieron cargar las transacciones."))
       .finally(() => setLoading(false));
   }, []);
 
@@ -22,12 +22,14 @@ export function TransactionsPage() {
   return (
     <div>
       <h1 className={styles.title}>Transacciones</h1>
-      <Link className={styles.newLink} to="/transactions/new">
+      <Link className="btnPrimarySmall" to="/transactions/new">
         + Nueva transacción
       </Link>
 
       {transactions.length === 0 ? (
-        <p className={styles.emptyState}>No hay transacciones cargadas todavía.</p>
+        <p className={styles.emptyState}>
+          No hay transacciones cargadas todavía.
+        </p>
       ) : (
         <table className={styles.table}>
           <thead>

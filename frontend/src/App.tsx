@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { AccountsPage } from './pages/accounts/AccountsPage';
+import { NewAccountPage } from './pages/accounts/NewAccountPage';
 import { TransactionsPage } from './pages/transactions/TransactionsPage';
 import { NewTransactionPage } from './pages/transactions/NewTransactionPage';
 import { JournalPage } from './pages/reports/JournalPage';
 import { LedgerPage } from './pages/reports/LedgerPage';
-import { BalanceSheetPage } from './pages/reports/BalanceSheetPage.tsx';
+import { BalanceSheetPage } from './pages/reports/BalanceSheetPage';
 import { IncomeStatementPage } from './pages/reports/IncomeStatementPage';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<Navigate to="/accounts" replace />} />
           <Route path="/accounts" element={<AccountsPage />} />
+          <Route path="/accounts/new" element={<NewAccountPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/transactions/new" element={<NewTransactionPage />} />
           <Route path="/reports/journal" element={<JournalPage />} />

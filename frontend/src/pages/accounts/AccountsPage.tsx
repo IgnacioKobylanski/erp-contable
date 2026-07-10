@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getAccounts } from '../../services/account.service';
 import type { Account } from '../../types';
 import { accountTypeColorClass } from '../../utils/accountStyles';
@@ -22,6 +23,10 @@ export function AccountsPage() {
   return (
     <div>
       <h1 className={styles.title}>Plan de Cuentas</h1>
+      <Link className="btnPrimarySmall" to="/accounts/new">
+        + Nueva cuenta
+      </Link>
+
       {accounts.length === 0 ? (
         <p className={styles.emptyState}>No hay cuentas cargadas todavía.</p>
       ) : (

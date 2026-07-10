@@ -196,12 +196,12 @@ export function NewTransactionPage() {
         <div className={styles.actions}>
           <button
             type="submit"
-            className={styles.submitButton}
+            className="btnPrimary"
             disabled={submitting || !isBalanced}
           >
             {submitting ? "Guardando..." : "Guardar Transacción"}
           </button>
-          <Link className={styles.cancelLink} to="/transactions">
+          <Link className="btnSecondary" to="/transactions">
             Cancelar
           </Link>
         </div>
