@@ -13,7 +13,6 @@
   border-radius: var(--radius-md);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   margin-bottom: var(--spacing-lg);
-  overflow: hidden;
 }
 
 .recordHeader {
@@ -22,6 +21,7 @@
   border-bottom: 1px solid var(--color-border);
   font-size: var(--font-size-sm);
   font-weight: 600;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 .noEntries {
@@ -59,4 +59,9 @@
 
 .credit {
   color: var(--color-expense);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
 }

@@ -4,6 +4,7 @@ import { getAccounts } from "../../services/account.service";
 import { createTransaction } from "../../services/transaction.service";
 import type { Account, EntryPayload, EntryType } from "../../types";
 import styles from "./NewTransactionPage.module.css";
+import { useToast } from "../../contexts/ToastContext";
 
 interface EntryFormRow {
   account_id: number | "";
@@ -19,6 +20,7 @@ const emptyRow = (): EntryFormRow => ({
 
 export function NewTransactionPage() {
   const navigate = useNavigate();
+  const { showSuccess } = useToast();
 
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [description, setDescription] = useState("");
@@ -82,6 +84,7 @@ export function NewTransactionPage() {
     setSubmitting(true);
     try {
       await createTransaction({ description, entries });
+      showSuccess("Transacción guardada correctamente.");
       navigate("/transactions");
     } catch {
       setError("Error al guardar la transacción. Verificá los datos.");

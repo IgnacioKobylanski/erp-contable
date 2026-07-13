@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getJournal } from '../../services/reports.service';
-import type { JournalRecord } from '../../types';
-import styles from './JournalPage.module.css';
+import { useEffect, useState } from "react";
+import { getJournal } from "../../services/reports.service";
+import type { JournalRecord } from "../../types";
+import { Spinner } from "../../components/spinner/Spinner";
+import styles from "./JournalPage.module.css";
 
 export function JournalPage() {
   const [records, setRecords] = useState<JournalRecord[]>([]);
@@ -11,11 +12,11 @@ export function JournalPage() {
   useEffect(() => {
     getJournal()
       .then((response) => setRecords(response.results))
-      .catch(() => setError('No se pudo cargar el libro diario.'))
+      .catch(() => setError("No se pudo cargar el libro diario."))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando libro diario...</p>;
+  if (loading) return <Spinner label="Cargando libro diario..." />;
   if (error) return <p>{error}</p>;
 
   return (
@@ -23,17 +24,20 @@ export function JournalPage() {
       <h1 className={styles.title}>Libro Diario</h1>
 
       {records.length === 0 ? (
-        <p className={styles.emptyState}>No hay transacciones registradas todavía.</p>
+        <p className={styles.emptyState}>
+          No hay transacciones registradas todavía.
+        </p>
       ) : (
         records.map((record) => (
           <div key={record.transaction_id} className={styles.record}>
             <div className={styles.recordHeader}>
-              {record.description}{' '}
+              {record.description}{" "}
               <span className={styles.recordId}>
-                #{record.transaction_id} — {new Date(record.date).toLocaleDateString()}
+                #{record.transaction_id} —{" "}
+                {new Date(record.date).toLocaleDateString()}
               </span>
             </div>
-            <table className={styles.table}>
+            <table className={`${styles.table} responsiveTable`}>
               <thead>
                 <tr>
                   <th>Cuenta</th>
@@ -44,11 +48,16 @@ export function JournalPage() {
               <tbody>
                 {record.entries.map((entry, index) => (
                   <tr key={index}>
-                    <td>{entry.account}</td>
-                    <td className={entry.type === 'debit' ? styles.debit : styles.credit}>
-                      {entry.type === 'debit' ? 'Débito' : 'Crédito'}
+                    <td data-label="Cuenta">{entry.account}</td>
+                    <td
+                      data-label="Tipo"
+                      className={
+                        entry.type === "debit" ? styles.debit : styles.credit
+                      }
+                    >
+                      {entry.type === "debit" ? "Débito" : "Crédito"}
                     </td>
-                    <td>{entry.amount}</td>
+                    <td data-label="Monto">{entry.amount}</td>
                   </tr>
                 ))}
               </tbody>

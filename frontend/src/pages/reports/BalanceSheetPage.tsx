@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getBalanceSheet } from '../../services/reports.service';
-import type { BalanceSheetItem } from '../../types';
-import styles from './BalanceSheetPage.module.css';
+import { useEffect, useState } from "react";
+import { getBalanceSheet } from "../../services/reports.service";
+import type { BalanceSheetItem } from "../../types";
+import { Spinner } from "../../components/spinner/Spinner";
+import styles from "./BalanceSheetPage.module.css";
 
 export function BalanceSheetPage() {
   const [items, setItems] = useState<BalanceSheetItem[]>([]);
@@ -11,11 +12,11 @@ export function BalanceSheetPage() {
   useEffect(() => {
     getBalanceSheet()
       .then((response) => setItems(response.results))
-      .catch(() => setError('No se pudo cargar el balance general.'))
+      .catch(() => setError("No se pudo cargar el balance general."))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando balance general...</p>;
+  if (loading) return <Spinner label="Cargando balance general..." />;
   if (error) return <p>{error}</p>;
 
   return (
@@ -23,9 +24,11 @@ export function BalanceSheetPage() {
       <h1 className={styles.title}>Balance General</h1>
 
       {items.length === 0 ? (
-        <p className={styles.emptyState}>No hay cuentas con movimientos todavía.</p>
+        <p className={styles.emptyState}>
+          No hay cuentas con movimientos todavía.
+        </p>
       ) : (
-        <table className={styles.table}>
+        <table className={`${styles.table} responsiveTable`}>
           <thead>
             <tr>
               <th>Cuenta</th>
@@ -35,8 +38,8 @@ export function BalanceSheetPage() {
           <tbody>
             {items.map((item) => (
               <tr key={item.account}>
-                <td>{item.account}</td>
-                <td>{item.balance}</td>
+                <td data-label="Cuenta">{item.account}</td>
+                <td data-label="Saldo">{item.balance}</td>
               </tr>
             ))}
           </tbody>

@@ -58,3 +58,8 @@
 .credit {
   color: var(--color-expense);
 }
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}

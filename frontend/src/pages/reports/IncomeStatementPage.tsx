@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getIncomeStatement } from '../../services/reports.service';
 import type { IncomeStatement } from '../../types';
 import styles from './IncomeStatementPage.module.css';
+import { Spinner } from '../../components/spinner/Spinner';
 
 export function IncomeStatementPage() {
   const [statement, setStatement] = useState<IncomeStatement | null>(null);
@@ -15,7 +16,7 @@ export function IncomeStatementPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando estado de resultados...</p>;
+  if (loading) return <Spinner label="Cargando estado de resultados..." />;
   if (error) return <p>{error}</p>;
   if (!statement) return <p>No hay datos disponibles.</p>;
 

@@ -122,3 +122,8 @@
   gap: var(--spacing-md);
   align-items: center;
 }
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}

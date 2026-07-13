@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getLedger } from '../../services/reports.service';
-import type { LedgerRecord } from '../../types';
-import styles from './LedgerPage.module.css';
+import { useEffect, useState } from "react";
+import { getLedger } from "../../services/reports.service";
+import type { LedgerRecord } from "../../types";
+import { Spinner } from "../../components/spinner/Spinner";
+import styles from "./LedgerPage.module.css";
 
 export function LedgerPage() {
   const [records, setRecords] = useState<LedgerRecord[]>([]);
@@ -11,11 +12,11 @@ export function LedgerPage() {
   useEffect(() => {
     getLedger()
       .then((response) => setRecords(response.results))
-      .catch(() => setError('No se pudo cargar el libro mayor.'))
+      .catch(() => setError("No se pudo cargar el libro mayor."))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando libro mayor...</p>;
+  if (loading) return <Spinner label="Cargando libro mayor..." />;
   if (error) return <p>{error}</p>;
 
   return (
@@ -23,7 +24,9 @@ export function LedgerPage() {
       <h1 className={styles.title}>Libro Mayor</h1>
 
       {records.length === 0 ? (
-        <p className={styles.emptyState}>No hay movimientos registrados todavía.</p>
+        <p className={styles.emptyState}>
+          No hay movimientos registrados todavía.
+        </p>
       ) : (
         records.map((record) => (
           <div key={record.account} className={styles.record}>
@@ -31,7 +34,7 @@ export function LedgerPage() {
             {record.entries.length === 0 ? (
               <p className={styles.noEntries}>Sin movimientos.</p>
             ) : (
-              <table className={styles.table}>
+              <table className={`${styles.table} responsiveTable`}>
                 <thead>
                   <tr>
                     <th>Fecha</th>
@@ -43,12 +46,19 @@ export function LedgerPage() {
                 <tbody>
                   {record.entries.map((entry, index) => (
                     <tr key={index}>
-                      <td>{new Date(entry.date).toLocaleDateString()}</td>
-                      <td>{entry.description}</td>
-                      <td className={entry.type === 'debit' ? styles.debit : styles.credit}>
-                        {entry.type === 'debit' ? 'Débito' : 'Crédito'}
+                      <td data-label="Fecha">
+                        {new Date(entry.date).toLocaleDateString()}
                       </td>
-                      <td>{entry.amount}</td>
+                      <td data-label="Descripción">{entry.description}</td>
+                      <td
+                        data-label="Tipo"
+                        className={
+                          entry.type === "debit" ? styles.debit : styles.credit
+                        }
+                      >
+                        {entry.type === "debit" ? "Débito" : "Crédito"}
+                      </td>
+                      <td data-label="Monto">{entry.amount}</td>
                     </tr>
                   ))}
                 </tbody>

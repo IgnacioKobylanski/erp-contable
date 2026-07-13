@@ -1,27 +1,35 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getAccounts, createAccount } from '../../services/account.service';
-import type { Account, AccountPayload, AccountType } from '../../types';
-import styles from './NewAccountPage.module.css';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { getAccounts, createAccount } from "../../services/account.service";
+import type { Account, AccountPayload, AccountType } from "../../types";
+import styles from "./NewAccountPage.module.css";
+import { useToast } from "../../contexts/ToastContext";
 
-const ACCOUNT_TYPES: AccountType[] = ['Asset', 'Liability', 'Equity', 'Income', 'Expense'];
+const ACCOUNT_TYPES: AccountType[] = [
+  "Asset",
+  "Liability",
+  "Equity",
+  "Income",
+  "Expense",
+];
 
 export function NewAccountPage() {
   const navigate = useNavigate();
+  const { showSuccess } = useToast();
 
   const [existingAccounts, setExistingAccounts] = useState<Account[]>([]);
-  const [code, setCode] = useState('');
-  const [name, setName] = useState('');
-  const [type, setType] = useState<AccountType>('Asset');
-  const [description, setDescription] = useState('');
-  const [parent, setParent] = useState<number | ''>('');
+  const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState<AccountType>("Asset");
+  const [description, setDescription] = useState("");
+  const [parent, setParent] = useState<number | "">("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     getAccounts()
       .then(setExistingAccounts)
-      .catch(() => setError('No se pudieron cargar las cuentas existentes.'));
+      .catch(() => setError("No se pudieron cargar las cuentas existentes."));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +37,7 @@ export function NewAccountPage() {
     setError(null);
 
     if (!code.trim() || !name.trim()) {
-      setError('El código y el nombre son obligatorios.');
+      setError("El código y el nombre son obligatorios.");
       return;
     }
 
@@ -38,15 +46,18 @@ export function NewAccountPage() {
       name,
       type,
       description: description.trim() || undefined,
-      parent: parent === '' ? null : parent,
+      parent: parent === "" ? null : parent,
     };
 
     setSubmitting(true);
     try {
       await createAccount(payload);
-      navigate('/accounts');
+      showSuccess("Cuenta creada correctamente.");
+      navigate("/accounts");
     } catch {
-      setError('Error al guardar la cuenta. Verificá que el código no esté repetido.');
+      setError(
+        "Error al guardar la cuenta. Verificá que el código no esté repetido.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -122,7 +133,9 @@ export function NewAccountPage() {
             id="parent"
             className={styles.select}
             value={parent}
-            onChange={(e) => setParent(e.target.value === '' ? '' : Number(e.target.value))}
+            onChange={(e) =>
+              setParent(e.target.value === "" ? "" : Number(e.target.value))
+            }
           >
             <option value="">Sin cuenta padre</option>
             {existingAccounts.map((account) => (
@@ -137,7 +150,7 @@ export function NewAccountPage() {
 
         <div className={styles.actions}>
           <button type="submit" className="btnPrimary" disabled={submitting}>
-            {submitting ? 'Guardando...' : 'Guardar Cuenta'}
+            {submitting ? "Guardando..." : "Guardar Cuenta"}
           </button>
           <Link className="btnSecondary" to="/accounts">
             Cancelar

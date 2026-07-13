@@ -8,10 +8,13 @@ import { JournalPage } from './pages/reports/JournalPage';
 import { LedgerPage } from './pages/reports/LedgerPage';
 import { BalanceSheetPage } from './pages/reports/BalanceSheetPage';
 import { IncomeStatementPage } from './pages/reports/IncomeStatementPage';
+import { ToastProvider } from './contexts/ToastContext';
+import { ToastContainer } from './components/toast/ToastContainer';
 
 function App() {
   return (
-    <BrowserRouter>
+    <ToastProvider>
+      <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Navigate to="/accounts" replace />} />
@@ -25,7 +28,9 @@ function App() {
           <Route path="/reports/income-statement" element={<IncomeStatementPage />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+      <ToastContainer />
+    </ToastProvider>
   );
 }
 

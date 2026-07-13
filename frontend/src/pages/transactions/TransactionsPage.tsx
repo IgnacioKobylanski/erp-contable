@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getTransactions } from "../../services/transaction.service";
 import type { Transaction } from "../../types";
 import styles from "./TransactionsPage.module.css";
+import { Spinner } from "../../components/spinner/Spinner";
 
 export function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -16,7 +17,7 @@ export function TransactionsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando transacciones...</p>;
+  if (loading) return <Spinner label="Cargando transacciones..." />;
   if (error) return <p>{error}</p>;
 
   return (
@@ -31,7 +32,7 @@ export function TransactionsPage() {
           No hay transacciones cargadas todavía.
         </p>
       ) : (
-        <table className={styles.table}>
+        <table className={`${styles.table} responsiveTable`}>
           <thead>
             <tr>
               <th>ID</th>
@@ -43,10 +44,12 @@ export function TransactionsPage() {
           <tbody>
             {transactions.map((transaction) => (
               <tr key={transaction.id}>
-                <td>{transaction.id}</td>
-                <td>{new Date(transaction.date).toLocaleDateString()}</td>
-                <td>{transaction.description}</td>
-                <td>{transaction.entries.length}</td>
+                <td data-label="ID">{transaction.id}</td>
+                <td data-label="Fecha">
+                  {new Date(transaction.date).toLocaleDateString()}
+                </td>
+                <td data-label="Descripción">{transaction.description}</td>
+                <td data-label="Movimientos">{transaction.entries.length}</td>
               </tr>
             ))}
           </tbody>

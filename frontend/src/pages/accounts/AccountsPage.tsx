@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getAccounts } from '../../services/account.service';
-import type { Account } from '../../types';
-import { accountTypeColorClass } from '../../utils/accountStyles';
-import styles from './AccountsPage.module.css';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getAccounts } from "../../services/account.service";
+import type { Account } from "../../types";
+import { accountTypeColorClass } from "../../utils/accountStyles";
+import styles from "./AccountsPage.module.css";
+import { Spinner } from "../../components/spinner/Spinner";
 
 export function AccountsPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -13,11 +14,11 @@ export function AccountsPage() {
   useEffect(() => {
     getAccounts()
       .then(setAccounts)
-      .catch(() => setError('No se pudieron cargar las cuentas.'))
+      .catch(() => setError("No se pudieron cargar las cuentas."))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Cargando cuentas...</p>;
+  if (loading) return <Spinner label="Cargando cuentas..." />;
   if (error) return <p>{error}</p>;
 
   return (
@@ -30,7 +31,7 @@ export function AccountsPage() {
       {accounts.length === 0 ? (
         <p className={styles.emptyState}>No hay cuentas cargadas todavía.</p>
       ) : (
-        <table className={styles.table}>
+        <table className={`${styles.table} responsiveTable`}>
           <thead>
             <tr>
               <th>Código</th>
@@ -41,10 +42,12 @@ export function AccountsPage() {
           <tbody>
             {accounts.map((account) => (
               <tr key={account.id}>
-                <td>{account.code}</td>
-                <td>{account.name}</td>
-                <td>
-                  <span className={`typeBadge ${accountTypeColorClass[account.type]}`}>
+                <td data-label="Código">{account.code}</td>
+                <td data-label="Nombre">{account.name}</td>
+                <td data-label="Tipo">
+                  <span
+                    className={`typeBadge ${accountTypeColorClass[account.type]}`}
+                  >
                     {account.type}
                   </span>
                 </td>
