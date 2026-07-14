@@ -11,8 +11,10 @@ from .serializers import (
     JournalSerializer,
     LedgerSerializer,
     IncomeStatementSerializer,
+    TotalsSerializer,
 )
 from drf_spectacular.utils import extend_schema
+from accounting.reports.totals import generate_totals
 
 class BalanceSheetView(APIView):
     pagination_class = StandardResultsSetPagination
@@ -104,5 +106,20 @@ class IncomeStatementView(APIView):
             serializer = IncomeStatementSerializer(data)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+        except Exception:
+            return Response({"error": "Error interno del servidor."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class TotalsView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @extend_schema(
+        responses=TotalsSerializer,
+        description="Obtiene la suma total de débitos y créditos de todo el libro contable."
+    )
+    def get(self, request):
+        try:
+            data = generate_totals()
+            serializer = TotalsSerializer(data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception:
             return Response({"error": "Error interno del servidor."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -71,3 +71,19 @@ class IncomeStatementSerializer(serializers.Serializer):
         decimal_places=2,
         help_text="Resultado neto (ingresos - egresos)"
     )
+
+
+class TotalsSerializer(serializers.Serializer):
+    total_debit = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        help_text="Suma total de todos los débitos registrados"
+    )
+    total_credit = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        help_text="Suma total de todos los créditos registrados"
+    )
+    is_balanced = serializers.BooleanField(
+        help_text="Indica si el libro contable está balanceado globalmente"
+    )

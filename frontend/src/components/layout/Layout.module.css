@@ -27,6 +27,20 @@
   padding: var(--spacing-lg);
 }
 
+.themeToggle {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+}
+
+.themeToggle:hover {
+  background-color: var(--color-bg);
+}
+
 @media (max-width: 400px) {
   .main {
     padding: var(--spacing-md);

@@ -4,6 +4,7 @@ import type {
   JournalRecord,
   LedgerRecord,
   IncomeStatement,
+  Totals,
   PaginatedResponse,
 } from '../types';
 
@@ -24,5 +25,10 @@ export const getLedger = async (): Promise<PaginatedResponse<LedgerRecord>> => {
 
 export const getIncomeStatement = async (): Promise<IncomeStatement> => {
   const response = await api.get<IncomeStatement>('/reports/income-statement/');
+  return response.data;
+};
+
+export const getTotals = async (): Promise<Totals> => {
+  const response = await api.get<Totals>('/reports/totals/');
   return response.data;
 };

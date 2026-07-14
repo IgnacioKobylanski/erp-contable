@@ -40,3 +40,9 @@ export interface PaginatedResponse<T> {
     previous: string | null;
     results: T[];
 }
+
+export interface Totals {
+  total_debit: string;
+  total_credit: string;
+  is_balanced: boolean;
+}
