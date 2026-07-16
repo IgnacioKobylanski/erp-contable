@@ -48,6 +48,11 @@ class LedgerEntrySerializer(serializers.Serializer):
         decimal_places=2,
         help_text="Monto del movimiento"
     )
+    running_balance = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        help_text="Saldo acumulado de la cuenta hasta este movimiento, inclusive"
+    )
 
 
 class LedgerSerializer(serializers.Serializer):

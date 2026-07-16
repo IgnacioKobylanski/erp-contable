@@ -17,10 +17,11 @@ export interface JournalRecord {
 }
 
 export interface LedgerEntry {
-    date: string;
-    description: string;
-    type: 'debit' | 'credit';
-    amount: string;
+  date: string;
+  description: string;
+  type: 'debit' | 'credit';
+  amount: string;
+  running_balance: string;
 }
 
 export interface LedgerRecord {

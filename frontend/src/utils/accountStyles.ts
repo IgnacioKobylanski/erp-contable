@@ -7,3 +7,11 @@ export const accountTypeColorClass: Record<AccountType, string> = {
   Income: 'typeIncome',
   Expense: 'typeExpense',
 };
+
+export const accountTypeLabel: Record<AccountType, string> = {
+  Asset: 'Activo',
+  Liability: 'Pasivo',
+  Equity: 'Patrimonio',
+  Income: 'Ingreso',
+  Expense: 'Egreso',
+};

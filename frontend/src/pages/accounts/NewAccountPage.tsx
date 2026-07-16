@@ -4,6 +4,7 @@ import { getAccounts, createAccount } from "../../services/account.service";
 import type { Account, AccountPayload, AccountType } from "../../types";
 import styles from "./NewAccountPage.module.css";
 import { useToast } from "../../contexts/ToastContext";
+import { accountTypeLabel } from "../../utils/accountStyles";
 
 const ACCOUNT_TYPES: AccountType[] = [
   "Asset",
@@ -106,9 +107,9 @@ export function NewAccountPage() {
           >
             {ACCOUNT_TYPES.map((accountType) => (
               <option key={accountType} value={accountType}>
-                {accountType}
+                {accountTypeLabel[accountType]}
               </option>
-            ))}
+            ))}{" "}
           </select>
         </div>
 

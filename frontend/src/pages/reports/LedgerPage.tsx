@@ -41,6 +41,7 @@ export function LedgerPage() {
                     <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Monto</th>
+                    <th>Saldo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -59,6 +60,7 @@ export function LedgerPage() {
                         {entry.type === "debit" ? "Débito" : "Crédito"}
                       </td>
                       <td data-label="Monto">{entry.amount}</td>
+                      <td data-label="Saldo">{entry.running_balance}</td>
                     </tr>
                   ))}
                 </tbody>

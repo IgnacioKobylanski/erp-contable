@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAccounts } from "../../services/account.service";
 import type { Account } from "../../types";
-import { accountTypeColorClass } from "../../utils/accountStyles";
+import { accountTypeColorClass, accountTypeLabel } from '../../utils/accountStyles';
 import styles from "./AccountsPage.module.css";
 import { Spinner } from "../../components/spinner/Spinner";
+
 
 export function AccountsPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -48,7 +49,7 @@ export function AccountsPage() {
                   <span
                     className={`typeBadge ${accountTypeColorClass[account.type]}`}
                   >
-                    {account.type}
+                    {accountTypeLabel[account.type]}
                   </span>
                 </td>
               </tr>
