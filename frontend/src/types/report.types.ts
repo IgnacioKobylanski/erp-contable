@@ -25,8 +25,9 @@ export interface LedgerEntry {
 }
 
 export interface LedgerRecord {
-    account: string;
-    entries: LedgerEntry[];
+  account: string;
+  opening_balance: string;
+  entries: LedgerEntry[];
 }
 
 export interface IncomeStatement {

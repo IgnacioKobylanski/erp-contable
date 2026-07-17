@@ -15,6 +15,7 @@ from .serializers import (
 )
 from drf_spectacular.utils import extend_schema
 from accounting.reports.totals import generate_totals
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 class BalanceSheetView(APIView):
     pagination_class = StandardResultsSetPagination
@@ -43,15 +44,21 @@ class BalanceSheetView(APIView):
 
 class JournalView(APIView):
     pagination_class = StandardResultsSetPagination
-    permission_classes = [permissions.AllowAny] 
+    permission_classes = [permissions.AllowAny]
 
     @extend_schema(
+        parameters=[
+            OpenApiParameter('date_from', str, description='Fecha desde (YYYY-MM-DD), inclusive'),
+            OpenApiParameter('date_to', str, description='Fecha hasta (YYYY-MM-DD), inclusive'),
+        ],
         responses=JournalSerializer(many=True),
-        description="Obtiene los registros del diario contable paginados."
+        description="Obtiene los registros del diario contable paginados, opcionalmente filtrados por fecha."
     )
     def get(self, request):
         try:
-            data = generate_journal()
+            date_from = request.query_params.get('date_from')
+            date_to = request.query_params.get('date_to')
+            data = generate_journal(date_from=date_from, date_to=date_to)
             if not data:
                 return Response({"message": "No hay datos para el diario."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -67,15 +74,21 @@ class JournalView(APIView):
 
 class LedgerView(APIView):
     pagination_class = StandardResultsSetPagination
-    permission_classes = [permissions.AllowAny] 
+    permission_classes = [permissions.AllowAny]
 
     @extend_schema(
+        parameters=[
+            OpenApiParameter('date_from', str, description='Fecha desde (YYYY-MM-DD), inclusive'),
+            OpenApiParameter('date_to', str, description='Fecha hasta (YYYY-MM-DD), inclusive'),
+        ],
         responses=LedgerSerializer(many=True),
-        description="Obtiene los movimientos del libro mayor paginados."
+        description="Obtiene los movimientos del libro mayor paginados, opcionalmente filtrados por fecha."
     )
     def get(self, request):
         try:
-            data = generate_ledger()
+            date_from = request.query_params.get('date_from')
+            date_to = request.query_params.get('date_to')
+            data = generate_ledger(date_from=date_from, date_to=date_to)
             if not data:
                 return Response({"message": "No hay datos para el libro mayor."}, status=status.HTTP_404_NOT_FOUND)
 

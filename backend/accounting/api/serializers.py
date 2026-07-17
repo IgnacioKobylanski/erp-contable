@@ -57,6 +57,11 @@ class LedgerEntrySerializer(serializers.Serializer):
 
 class LedgerSerializer(serializers.Serializer):
     account = serializers.CharField(help_text="Cuenta contable")
+    opening_balance = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        help_text="Saldo acumulado antes del inicio del período filtrado (0 si no hay filtro de fecha)"
+    )
     entries = LedgerEntrySerializer(many=True, help_text="Lista de movimientos para la cuenta")
 
 

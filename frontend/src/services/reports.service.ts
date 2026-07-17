@@ -8,18 +8,33 @@ import type {
   PaginatedResponse,
 } from '../types';
 
+interface DateRangeParams {
+  dateFrom?: string;
+  dateTo?: string;
+}
+
 export const getBalanceSheet = async (): Promise<PaginatedResponse<BalanceSheetItem>> => {
   const response = await api.get<PaginatedResponse<BalanceSheetItem>>('/reports/balance-sheet/');
   return response.data;
 };
 
-export const getJournal = async (): Promise<PaginatedResponse<JournalRecord>> => {
-  const response = await api.get<PaginatedResponse<JournalRecord>>('/reports/journal/');
+export const getJournal = async (params?: DateRangeParams): Promise<PaginatedResponse<JournalRecord>> => {
+  const response = await api.get<PaginatedResponse<JournalRecord>>('/reports/journal/', {
+    params: {
+      date_from: params?.dateFrom || undefined,
+      date_to: params?.dateTo || undefined,
+    },
+  });
   return response.data;
 };
 
-export const getLedger = async (): Promise<PaginatedResponse<LedgerRecord>> => {
-  const response = await api.get<PaginatedResponse<LedgerRecord>>('/reports/ledger/');
+export const getLedger = async (params?: DateRangeParams): Promise<PaginatedResponse<LedgerRecord>> => {
+  const response = await api.get<PaginatedResponse<LedgerRecord>>('/reports/ledger/', {
+    params: {
+      date_from: params?.dateFrom || undefined,
+      date_to: params?.dateTo || undefined,
+    },
+  });
   return response.data;
 };
 
