@@ -5,6 +5,7 @@ import './styles/accountTypes.css'
 import './styles/buttons.css'
 import App from './App.tsx'
 import './styles/responsiveTable.css'
+import './styles/columnPanel.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
