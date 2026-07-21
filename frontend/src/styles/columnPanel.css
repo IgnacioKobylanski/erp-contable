@@ -1,7 +1,7 @@
 .actionsRow {
   display: flex;
   gap: var(--spacing-md);
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: var(--spacing-md);
 }
 
@@ -21,12 +21,14 @@
 
 .columnPanel {
   display: flex;
-  gap: var(--spacing-lg);
+  flex-direction: column;
+  gap: var(--spacing-xs);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-md);
+  max-width: 300px;
 }
 
 .columnOption {
@@ -44,4 +46,47 @@
 
 .sortable:hover {
   color: var(--color-text);
+}
+
+.columnRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: grab;
+}
+
+.columnRow:hover {
+  background-color: var(--color-bg);
+}
+
+.columnRowDragging {
+  opacity: 0.4;
+}
+
+.dragHandle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  user-select: none;
+}
+
+.resetColumnsButton {
+  width: 100%;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  text-align: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.resetColumnsButton:hover {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
 }

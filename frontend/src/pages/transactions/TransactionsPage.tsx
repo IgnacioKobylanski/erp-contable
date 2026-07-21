@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { getTransactions } from "../../services/transaction.service";
 import type { Transaction } from "../../types";
 import { Spinner } from "../../components/spinner/Spinner";
-import { useColumnVisibility } from "../../hooks/useColumnVisibility";
+import { useColumnConfig } from "../../hooks/useColumnConfig";
+import { ColumnConfigPanel } from "../../components/columnPanel/ColumnConfigPanel";
 import styles from "./TransactionsPage.module.css";
 
-type SortColumn = "id" | "date" | "description";
 type SortDirection = "asc" | "desc";
 
 const ALL_COLUMNS = ["id", "date", "description", "entries"] as const;
@@ -23,14 +23,12 @@ export function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortColumn, setSortColumn] = useState<SortColumn>("date");
+  const [sortColumn, setSortColumn] = useState<ColumnKey>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [showColumnPanel, setShowColumnPanel] = useState(false);
 
-  const { isVisible, toggleColumn } = useColumnVisibility<ColumnKey>(
-    "columns:transactions",
-    ALL_COLUMNS,
-  );
+  const { order, isVisible, toggleColumn, moveColumn, resetConfig } =
+    useColumnConfig<ColumnKey>("columns:transactions", ALL_COLUMNS);
 
   useEffect(() => {
     getTransactions()
@@ -39,7 +37,8 @@ export function TransactionsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSort = (column: SortColumn) => {
+  const handleSort = (column: ColumnKey) => {
+    if (column === "entries") return; // no tiene sentido ordenar por esta columna
     if (column === sortColumn) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
@@ -54,15 +53,34 @@ export function TransactionsPage() {
       comparison = a.id - b.id;
     } else if (sortColumn === "date") {
       comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
-    } else {
+    } else if (sortColumn === "description") {
       comparison = a.description.localeCompare(b.description);
+    } else {
+      comparison = 0;
     }
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
-  const sortIndicator = (column: SortColumn) => {
+  const sortIndicator = (column: ColumnKey) => {
     if (column !== sortColumn) return "";
     return sortDirection === "asc" ? " ▲" : " ▼";
+  };
+
+  const renderCell = (column: ColumnKey, transaction: Transaction) => {
+    switch (column) {
+      case "id":
+        return <td key={column} data-label="ID">{transaction.id}</td>;
+      case "date":
+        return (
+          <td key={column} data-label="Fecha">
+            {new Date(transaction.date).toLocaleDateString()}
+          </td>
+        );
+      case "description":
+        return <td key={column} data-label="Descripción">{transaction.description}</td>;
+      case "entries":
+        return <td key={column} data-label="Movimientos">{transaction.entries.length}</td>;
+    }
   };
 
   if (loading) return <Spinner label="Cargando transacciones..." />;
@@ -85,60 +103,39 @@ export function TransactionsPage() {
       </div>
 
       {showColumnPanel && (
-        <div className="columnPanel">
-          {ALL_COLUMNS.map((column) => (
-            <label key={column} className="columnOption">
-              <input
-                type="checkbox"
-                checked={isVisible(column)}
-                onChange={() => toggleColumn(column)}
-              />
-              {COLUMN_LABELS[column]}
-            </label>
-          ))}
-        </div>
+        <ColumnConfigPanel
+          order={order}
+          labels={COLUMN_LABELS}
+          isVisible={isVisible}
+          toggleColumn={toggleColumn}
+          moveColumn={moveColumn}
+          resetConfig={resetConfig}
+        />
       )}
 
       {transactions.length === 0 ? (
-        <p className={styles.emptyState}>
-          No hay transacciones cargadas todavía.
-        </p>
+        <p className={styles.emptyState}>No hay transacciones cargadas todavía.</p>
       ) : (
         <div className={styles.tableWrapper}>
           <table className={`${styles.table} responsiveTable`}>
             <thead>
               <tr>
-                {isVisible("id") && (
-                  <th className="sortable" onClick={() => handleSort("id")}>
-                    ID{sortIndicator("id")}
+                {order.filter(isVisible).map((column) => (
+                  <th
+                    key={column}
+                    className={column === "entries" ? "" : "sortable"}
+                    onClick={() => handleSort(column)}
+                  >
+                    {COLUMN_LABELS[column]}
+                    {sortIndicator(column)}
                   </th>
-                )}
-                {isVisible("date") && (
-                  <th className="sortable" onClick={() => handleSort("date")}>
-                    Fecha{sortIndicator("date")}
-                  </th>
-                )}
-                {isVisible("description") && (
-                  <th className="sortable" onClick={() => handleSort("description")}>
-                    Descripción{sortIndicator("description")}
-                  </th>
-                )}
-                {isVisible("entries") && <th>Movimientos</th>}
+                ))}
               </tr>
             </thead>
             <tbody>
               {sortedTransactions.map((transaction) => (
                 <tr key={transaction.id}>
-                  {isVisible("id") && <td data-label="ID">{transaction.id}</td>}
-                  {isVisible("date") && (
-                    <td data-label="Fecha">{new Date(transaction.date).toLocaleDateString()}</td>
-                  )}
-                  {isVisible("description") && (
-                    <td data-label="Descripción">{transaction.description}</td>
-                  )}
-                  {isVisible("entries") && (
-                    <td data-label="Movimientos">{transaction.entries.length}</td>
-                  )}
+                  {order.filter(isVisible).map((column) => renderCell(column, transaction))}
                 </tr>
               ))}
             </tbody>

@@ -7,7 +7,8 @@ import {
   accountTypeLabel,
 } from "../../utils/accountStyles";
 import { Spinner } from "../../components/spinner/Spinner";
-import { useColumnVisibility } from "../../hooks/useColumnVisibility";
+import { useColumnConfig } from "../../hooks/useColumnConfig";
+import { ColumnConfigPanel } from "../../components/columnPanel/ColumnConfigPanel";
 import styles from "./AccountsPage.module.css";
 
 type SortColumn = "code" | "name" | "type";
@@ -30,10 +31,8 @@ export function AccountsPage() {
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [showColumnPanel, setShowColumnPanel] = useState(false);
 
-  const { isVisible, toggleColumn } = useColumnVisibility<ColumnKey>(
-    "columns:accounts",
-    ALL_COLUMNS,
-  );
+  const { order, isVisible, toggleColumn, moveColumn, resetConfig } =
+    useColumnConfig<ColumnKey>("columns:accounts", ALL_COLUMNS);
 
   useEffect(() => {
     getAccounts()
@@ -63,6 +62,33 @@ export function AccountsPage() {
     return sortDirection === "asc" ? " ▲" : " ▼";
   };
 
+  const renderCell = (column: ColumnKey, account: Account) => {
+    switch (column) {
+      case "code":
+        return (
+          <td key={column} data-label="Código">
+            {account.code}
+          </td>
+        );
+      case "name":
+        return (
+          <td key={column} data-label="Nombre">
+            {account.name}
+          </td>
+        );
+      case "type":
+        return (
+          <td key={column} data-label="Tipo">
+            <span
+              className={`typeBadge ${accountTypeColorClass[account.type]}`}
+            >
+              {accountTypeLabel[account.type]}
+            </span>
+          </td>
+        );
+    }
+  };
+
   if (loading) return <Spinner label="Cargando cuentas..." />;
   if (error) return <p>{error}</p>;
 
@@ -83,18 +109,14 @@ export function AccountsPage() {
       </div>
 
       {showColumnPanel && (
-        <div className="columnPanel">
-          {ALL_COLUMNS.map((column) => (
-            <label key={column} className="columnOption">
-              <input
-                type="checkbox"
-                checked={isVisible(column)}
-                onChange={() => toggleColumn(column)}
-              />
-              {COLUMN_LABELS[column]}
-            </label>
-          ))}
-        </div>
+        <ColumnConfigPanel
+          order={order}
+          labels={COLUMN_LABELS}
+          isVisible={isVisible}
+          toggleColumn={toggleColumn}
+          moveColumn={moveColumn}
+          resetConfig={resetConfig}
+        />
       )}
 
       {accounts.length === 0 ? (
@@ -104,41 +126,24 @@ export function AccountsPage() {
           <table className={`${styles.table} responsiveTable`}>
             <thead>
               <tr>
-                {isVisible("code") && (
-                  <th className="sortable" onClick={() => handleSort("code")}>
-                    Código{sortIndicator("code")}
+                {order.filter(isVisible).map((column) => (
+                  <th
+                    key={column}
+                    className="sortable"
+                    onClick={() => handleSort(column)}
+                  >
+                    {COLUMN_LABELS[column]}
+                    {sortIndicator(column)}
                   </th>
-                )}
-                {isVisible("name") && (
-                  <th className="sortable" onClick={() => handleSort("name")}>
-                    Nombre{sortIndicator("name")}
-                  </th>
-                )}
-                {isVisible("type") && (
-                  <th className="sortable" onClick={() => handleSort("type")}>
-                    Tipo{sortIndicator("type")}
-                  </th>
-                )}
+                ))}
               </tr>
             </thead>
             <tbody>
               {sortedAccounts.map((account) => (
                 <tr key={account.id}>
-                  {isVisible("code") && (
-                    <td data-label="Código">{account.code}</td>
-                  )}
-                  {isVisible("name") && (
-                    <td data-label="Nombre">{account.name}</td>
-                  )}
-                  {isVisible("type") && (
-                    <td data-label="Tipo">
-                      <span
-                        className={`typeBadge ${accountTypeColorClass[account.type]}`}
-                      >
-                        {accountTypeLabel[account.type]}
-                      </span>
-                    </td>
-                  )}
+                  {order
+                    .filter(isVisible)
+                    .map((column) => renderCell(column, account))}
                 </tr>
               ))}
             </tbody>
