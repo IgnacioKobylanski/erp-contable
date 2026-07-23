@@ -30,10 +30,27 @@ export interface LedgerRecord {
   entries: LedgerEntry[];
 }
 
+export interface IncomeAccount {
+  account: string;
+  amount: string;
+  percentage: string;
+}
+
+export interface ExpenseAccount {
+  account: string;
+  amount: string;
+  percentage: string;
+  expense_nature: string | null;
+}
+
 export interface IncomeStatement {
-    total_income: string;
-    total_expense: string;
-    net_result: string;
+  income_accounts: IncomeAccount[];
+  expense_accounts: ExpenseAccount[];
+  total_income: string;
+  total_expense: string;
+  total_fixed_expense: string;
+  total_variable_expense: string;
+  net_result: string;
 }
 
 export interface PaginatedResponse<T> {

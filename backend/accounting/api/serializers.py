@@ -65,23 +65,31 @@ class LedgerSerializer(serializers.Serializer):
     entries = LedgerEntrySerializer(many=True, help_text="Lista de movimientos para la cuenta")
 
 
-class IncomeStatementSerializer(serializers.Serializer):
-    total_income = serializers.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        help_text="Total de ingresos"
-    )
-    total_expense = serializers.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        help_text="Total de egresos"
-    )
-    net_result = serializers.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        help_text="Resultado neto (ingresos - egresos)"
+class IncomeAccountSerializer(serializers.Serializer):
+    account = serializers.CharField(help_text="Nombre de la cuenta")
+    amount = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Monto de la cuenta")
+    percentage = serializers.DecimalField(max_digits=5, decimal_places=2, help_text="Porcentaje sobre el total de ingresos")
+
+
+class ExpenseAccountSerializer(serializers.Serializer):
+    account = serializers.CharField(help_text="Nombre de la cuenta")
+    amount = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Monto de la cuenta")
+    percentage = serializers.DecimalField(max_digits=5, decimal_places=2, help_text="Porcentaje sobre el total de egresos")
+    expense_nature = serializers.CharField(
+        allow_null=True,
+        required=False,
+        help_text="Naturaleza del gasto (Fijo/Variable), si la cuenta tiene el tag asignado"
     )
 
+
+class IncomeStatementSerializer(serializers.Serializer):
+    income_accounts = IncomeAccountSerializer(many=True, help_text="Detalle de cuentas de ingreso")
+    expense_accounts = ExpenseAccountSerializer(many=True, help_text="Detalle de cuentas de egreso")
+    total_income = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Total de ingresos")
+    total_expense = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Total de egresos")
+    total_fixed_expense = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Total de egresos fijos")
+    total_variable_expense = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Total de egresos variables")
+    net_result = serializers.DecimalField(max_digits=12, decimal_places=2, help_text="Resultado neto (ingresos - egresos)")
 
 class TotalsSerializer(serializers.Serializer):
     total_debit = serializers.DecimalField(

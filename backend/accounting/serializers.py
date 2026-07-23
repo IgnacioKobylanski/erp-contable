@@ -1,12 +1,37 @@
 from rest_framework import serializers
 from django.db import transaction
-from .models import Account, Transaction, Entry
+from .models import Account, AccountTag, Transaction, Entry
 from decimal import Decimal
 
+class AccountTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountTag
+        fields = ['id', 'name', 'category']
+
+
 class AccountSerializer(serializers.ModelSerializer):
+    tags = AccountTagSerializer(many=True, read_only=True)
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        queryset=AccountTag.objects.all(),
+        source='tags',
+        many=True,
+        write_only=True,
+        required=False
+    )
+
     class Meta:
         model = Account
         fields = '__all__'
+
+    def validate_tag_ids(self, tags):
+        categories_seen = []
+        for tag in tags:
+            if tag.category in categories_seen:
+                raise serializers.ValidationError(
+                    f"No se puede asignar más de un tag de la categoría '{tag.category}' a la misma cuenta."
+                )
+            categories_seen.append(tag.category)
+        return tags
 
 class EntrySerializer(serializers.ModelSerializer):
     account_id = serializers.PrimaryKeyRelatedField(
