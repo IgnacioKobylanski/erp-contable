@@ -65,3 +65,21 @@ export interface Totals {
   total_credit: string;
   is_balanced: boolean;
 }
+
+export interface CashflowMovement {
+  date: string;
+  description: string;
+  account: string;
+  type: 'debit' | 'credit';
+  amount: string;
+  running_balance: string;
+}
+
+export interface Cashflow {
+  opening_balance: string;
+  closing_balance: string;
+  total_in: string;
+  total_out: string;
+  net_cashflow: string;
+  movements: CashflowMovement[];
+}

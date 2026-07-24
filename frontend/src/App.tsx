@@ -12,6 +12,7 @@ import { ToastProvider } from "./contexts/ToastContext";
 import { ToastContainer } from "./components/toast/ToastContainer";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardPage } from "./pages/dashboard/DashboardPage"
+import { CashflowPage } from './pages/reports/CashflowPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               />
               <Route path="/reports/journal" element={<JournalPage />} />
               <Route path="/reports/ledger" element={<LedgerPage />} />
+              <Route path="/reports/cashflow" element={<CashflowPage />} />
               <Route
                 path="/reports/balance-sheet"
                 element={<BalanceSheetPage />}

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BalanceSheetView, JournalView, LedgerView, IncomeStatementView, TotalsView
+from .views import BalanceSheetView, JournalView, LedgerView, IncomeStatementView, TotalsView, CashflowView
 
 urlpatterns = [
     path('reports/balance-sheet/', BalanceSheetView.as_view(), name='balance-sheet'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('reports/ledger/', LedgerView.as_view(), name='ledger'),
     path('reports/income-statement/', IncomeStatementView.as_view(), name='income-statement'),
     path('reports/totals/', TotalsView.as_view(), name='totals'),
+    path('reports/cashflow/', CashflowView.as_view(), name='cashflow'),
 ]

@@ -105,3 +105,20 @@ class TotalsSerializer(serializers.Serializer):
     is_balanced = serializers.BooleanField(
         help_text="Indica si el libro contable está balanceado globalmente"
     )
+
+class CashflowMovementSerializer(serializers.Serializer):
+    date = serializers.DateTimeField(help_text="Fecha del movimiento")
+    description = serializers.CharField(help_text="Descripción de la transacción")
+    account = serializers.CharField(help_text="Cuenta de efectivo afectada")
+    type = serializers.ChoiceField(choices=TYPE_CHOICES, help_text="Tipo de movimiento: debit (entrada) o credit (salida)")
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Monto del movimiento")
+    running_balance = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Saldo de efectivo acumulado")
+
+
+class CashflowSerializer(serializers.Serializer):
+    opening_balance = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Saldo de efectivo antes del período filtrado")
+    closing_balance = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Saldo de efectivo al final del período")
+    total_in = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Total de entradas de efectivo en el período")
+    total_out = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Total de salidas de efectivo en el período")
+    net_cashflow = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Flujo neto de efectivo (entradas - salidas)")
+    movements = CashflowMovementSerializer(many=True, help_text="Detalle de movimientos de efectivo")

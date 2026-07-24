@@ -6,6 +6,7 @@ import type {
   IncomeStatement,
   Totals,
   PaginatedResponse,
+  Cashflow,
 } from '../types';
 
 interface DateRangeParams {
@@ -45,5 +46,15 @@ export const getIncomeStatement = async (): Promise<IncomeStatement> => {
 
 export const getTotals = async (): Promise<Totals> => {
   const response = await api.get<Totals>('/reports/totals/');
+  return response.data;
+};
+
+export const getCashflow = async (params?: DateRangeParams): Promise<Cashflow> => {
+  const response = await api.get<Cashflow>('/reports/cashflow/', {
+    params: {
+      date_from: params?.dateFrom || undefined,
+      date_to: params?.dateTo || undefined,
+    },
+  });
   return response.data;
 };

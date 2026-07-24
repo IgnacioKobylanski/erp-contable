@@ -30,6 +30,9 @@ export function Layout() {
           <Link className={styles.navLink} to="/reports/income-statement">
             Estado de Resultados
           </Link>
+          <Link className={styles.navLink} to="/reports/cashflow">
+            Flujo de Efectivo
+          </Link>
           <button
             className={styles.themeToggle}
             onClick={toggleTheme}

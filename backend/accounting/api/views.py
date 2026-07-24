@@ -12,10 +12,12 @@ from .serializers import (
     LedgerSerializer,
     IncomeStatementSerializer,
     TotalsSerializer,
+    CashflowSerializer,
 )
 from drf_spectacular.utils import extend_schema
 from accounting.reports.totals import generate_totals
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+from accounting.reports.cashflow import generate_cashflow
 
 class BalanceSheetView(APIView):
     pagination_class = StandardResultsSetPagination
@@ -133,6 +135,28 @@ class TotalsView(APIView):
         try:
             data = generate_totals()
             serializer = TotalsSerializer(data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception:
+            return Response({"error": "Error interno del servidor."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class CashflowView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter('date_from', str, description='Fecha desde (YYYY-MM-DD), inclusive'),
+            OpenApiParameter('date_to', str, description='Fecha hasta (YYYY-MM-DD), inclusive'),
+        ],
+        responses=CashflowSerializer,
+        description="Obtiene el flujo de efectivo (Cashflow), basado en las cuentas etiquetadas como 'Efectivo'."
+    )
+    def get(self, request):
+        try:
+            date_from = request.query_params.get('date_from')
+            date_to = request.query_params.get('date_to')
+            data = generate_cashflow(date_from=date_from, date_to=date_to)
+            serializer = CashflowSerializer(data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception:
             return Response({"error": "Error interno del servidor."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
